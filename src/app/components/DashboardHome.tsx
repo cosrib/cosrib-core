@@ -62,6 +62,37 @@ export function DashboardHome({ onGoTo }: Props) {
     ] as const;
 
     return (
-        <div
+        <div className="space-y-10 max-w-6xl mx-auto">
+            <div>
+                <h1 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mb-1">
+                  Überscicht
+                </h1>
+                <p className="text-muted-foreground text-sm sm:text-base max-w-2xl">
+                    Wichtigste Zahlen auf einen Blick. Die Werte werden verbunden, sobald
+                    Kontakte und E-Mails in Scribe gespeichert sind.
+                </p>
+            </div>
+
+            <section ario-labelledby="kpi-heading">
+                <h2 id="kpi-heading" className="sr-only">
+                    Kennzahlen
+                </h2>
+                <div className= "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4">
+                    {stats.map((s) => {
+                        const Icon = s.icon;
+                        return (
+                            <button
+                              key={s.id}
+                              type="button"
+                              onClick={s.onClick}
+                              className="text-left rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm hover:border-primary/40 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+                            >
+                                <div className="flex items-start justify-between gap.2"
+                            </button>
+                        )
+                    })}
+                </div>
+            </section>
+        </div>
     )
 }
