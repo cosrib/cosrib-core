@@ -18,7 +18,7 @@
 | **„Anmelden“ auf Landing** | Teilweise | Wechselt nur zur **Dashboard-Ansicht** in der App, **kein** Link zu `/auth` |
 | **„Abmelden“ im Dashboard** | Nur UI | Ruft **kein** `supabase.auth.signOut()` auf |
 | **E-Mail in Sidebar** | Platzhalter | Fest `freelancer@example.de` – echte User-Mail aus Session |
-| **Dashboard: Home** | Fertig | Karten für Kalt-Email / Follow-up |
+| **Dashboard: Home** | UI fertig (Shopify-Stil) | KPIs = Platzhalter `DASHBOARD_STATS_PLACEHOLDER` in `DashboardHome.tsx` |
 | **Dashboard: Profil, Schreibstil, Kontakte, …** | Platzhalter | Text „Dieser Bereich wird bald verfügbar sein“ |
 | **Kalt-Email / Follow-up / Antwort / Verlauf** | Nicht gebaut | Keine Seiten, keine Logik, kein AI-Text |
 | **API-Routen (`/api/...`)** | Keine | — |

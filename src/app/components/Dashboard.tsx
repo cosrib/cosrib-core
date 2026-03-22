@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SidebarItem } from "./SidebarItem";
 import { Button } from "./Button";
 import { Card } from "./Card";
+import { DashboardHome } from "./DashboardHome";
 import {
   Home,
   User,
@@ -160,54 +161,9 @@ export function Dashboard({
         </header>
 
         <div className="flex-1 overflow-y-auto overscroll-contain">
-          <div className="max-w-4xl mx-auto p-4 sm:p-8 md:p-12 pb-16">
+          <div className="max-w-6xl mx-auto p-4 sm:p-8 md:p-12 pb-16">
             {activeSection === "home" && (
-              <div className="space-y-8">
-                <div>
-                  <h1 className="mb-2 text-2xl sm:text-3xl font-semibold tracking-tight">
-                    Willkommen zurück
-                  </h1>
-                  <p className="text-muted-foreground max-w-xl">
-                    Wähle einen Bereich in der Sidebar oder starte mit einer der Schnellaktionen.
-                  </p>
-                </div>
-
-                <div className="grid gap-4 sm:gap-6 sm:grid-cols-2">
-                  <Card
-                    className="cursor-pointer transition-all hover:border-primary hover:shadow-md active:scale-[0.99]"
-                    onClick={() => setActiveSection("kalt-email")}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setActiveSection("kalt-email");
-                      }
-                    }}
-                  >
-                    <Mail className="w-8 h-8 text-primary mb-3" aria-hidden />
-                    <h3 className="mb-2 font-semibold">Neue Kalt-Email</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Erstelle eine neue Outreach-E-Mail für potenzielle Kunden.
-                    </p>
-                  </Card>
-
-                  <Card
-                    className="cursor-pointer transition-all hover:border-primary hover:shadow-md active:scale-[0.99]"
-                    onClick={() => setActiveSection("follow-up")}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        setActiveSection("follow-up");
-                      }
-                    }}
-                  >
-                    <Reply className="w-8 h-8 text-primary mb-3" aria-hidden />
-                    <h3 className="mb-2 font-semibold">Follow-up schreiben</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      Verfasse eine professionelle Nachfass-E-Mail.
-                    </p>
-                  </Card>
-                </div>
-              </div>
+              <DashboardHome onGoTo={(id) => setActiveSection(id)} />
             )}
 
             {activeSection !== "home" && (
