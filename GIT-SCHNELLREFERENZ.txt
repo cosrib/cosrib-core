@@ -1,0 +1,55 @@
+═══════════════════════════════════════════════════════════
+  SCRIBE / FREELANCEROS – GIT & GITHUB SCHNELLREFERENZ
+═══════════════════════════════════════════════════════════
+
+■ WAS IST GIT?
+  Git speichert Versionen deines Codes. Du kannst jederzeit zurück,
+  Änderungen vergleichen und mit anderen teilen. GitHub = Cloud wo
+  der Code online liegt.
+
+■ CODE AUF GITHUB ANSEHEN
+  1. Geh auf https://github.com
+  2. Einloggen
+  3. Dein Repo anklicken (heißt oft wie dein Projekt, z.B. FreelancerOS)
+  → Da siehst du alle Dateien. Der Ordner "git" auf deinem PC ist NICHT
+    dein Code – der echte Code ist in src/, HTML/, CSS/ etc.
+
+■ MEIN WORKFLOW (ÄNDERUNGEN SPEICHERN + GITHUB)
+
+  1. Code ändern in Cursor
+  2. Strg + S  (speichern)
+  3. Strg + Shift + P  →  "Run Task"  →  "Sync zu GitHub"
+
+  Fertig! Keine Befehle nötig.
+
+───────────────────────────────────────────────────────────
+  WICHTIGSTE BEFEHLE (falls du sie im Terminal brauchst)
+───────────────────────────────────────────────────────────
+
+  In den Projektordner wechseln:
+    cd "C:\Users\natha\Documents\Ordnung app\FreelancerOS"
+
+  Status prüfen (was hat sich geändert?):
+    git status
+
+  Alles speichern + nach GitHub schicken (manuell):
+    git add .
+    git commit -m "Stand sichern"
+    git push
+
+  Besser: Nutze den Sync-Task (Strg+Shift+P → Run Task → Sync zu GitHub)
+  – der macht add, commit und push in einem Schritt.
+
+───────────────────────────────────────────────────────────
+  WAS BEDEUTET WAS?
+───────────────────────────────────────────────────────────
+
+  git add .         → Änderungen „vorbereiten“ für den Commit
+  git commit -m "x" → Lokal speichern mit Nachricht (Leerzeichen vor -m!)
+  git push          → Hochladen zu GitHub
+
+  on branch master  → Du bist auf dem Hauptzweig (gut)
+  nothing to commit → Alles schon gespeichert (gut)
+  working tree clean → Keine offenen Änderungen (gut)
+
+───────────────────────────────────────────────────────────
