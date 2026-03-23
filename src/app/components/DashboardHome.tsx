@@ -73,7 +73,7 @@ export function DashboardHome({ onGoTo }: Props) {
                 </p>
             </div>
 
-            <section ario-labelledby="kpi-heading">
+            <section aria-labelledby="kpi-heading">
                 <h2 id="kpi-heading" className="sr-only">
                     Kennzahlen
                 </h2>
@@ -87,11 +87,11 @@ export function DashboardHome({ onGoTo }: Props) {
                               onClick={s.onClick}
                               className="text-left rounded-xl border border-border bg-card p-4 sm:p-5 shadow-sm hover:border-primary/40 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                             >
-                                <div className="flex items-start justify-between gap.2 mb-3">
+                                <div className="flex items-start justify-between gap-2 mb-3">
                                   <span className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
                                     {s.label}
                                   </span>
-                                  <span className="text-2xl font-semibold text-foreground">
+                                  <span className="rounded-lg bg-accent p-2 text-accent-foreground shrink-0">
                                     <Icon className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden />
                                   </span>
                                 </div>
@@ -105,8 +105,8 @@ export function DashboardHome({ onGoTo }: Props) {
                 </div>
             </section>
 
-            <section aria-labelledby="quick heading">
-              <div className="felx items-center jusitfy-between gap-4 mb-4">
+            <section aria-labelledby="quick-heading">
+              <div className="flex items-center justify-between gap-4 mb-4">
                 <h2 id="quick-heading" className="text-lg font-semibold">
                   Schnellaktionen
                 </h2>
@@ -154,7 +154,7 @@ export function DashboardHome({ onGoTo }: Props) {
               </div>
             </section>
 
-            <section aria-labelledby="recent heading">
+            <section aria-labelledby="recent-heading">
               <h2 id="recent-heading" className="text-lg font-semibold mb-2">
                 Letzte Aktivitäten
               </h2>

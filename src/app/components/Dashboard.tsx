@@ -160,7 +160,7 @@ export function Dashboard({
           <div className="w-10 md:w-0 shrink-0" aria-hidden />
         </header>
 
-        <div className="flex-1 overflow-y-auto overscroll-contain">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
           <div className="max-w-6xl mx-auto p-4 sm:p-8 md:p-12 pb-16">
             {activeSection === "home" && (
               <DashboardHome onGoTo={(id) => setActiveSection(id)} />
