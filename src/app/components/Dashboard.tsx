@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { User } from "@/lib/supabase-js";
-import type { supabase} from "@/lib/supabase";
+import type { User as SupabaseUser } from "@supabase/supabase-js";
+import { supabase } from "@/lib/supabase";
 import { SidebarItem } from "./SidebarItem";
 import { Button } from "./Button";
 import { DashboardHome } from "./DashboardHome";
@@ -23,7 +23,7 @@ import {
 
 type View = "landing" | "dashboard";
 
-function labelFromUser(user: User | null): string {
+function labelFromUser(user: SupabaseUser | null): string {
   if (!user) return "Lädt...";
   if (user.email) return user.email;
   const meta = user.user_metadata as Record<string, unknown> | undefined;
@@ -104,19 +104,31 @@ export function Dashboard({
     <>
       <div className="px-3 py-2 rounded-lg bg-secondary/50 border border-border/60">
         <p className="text-xs text-muted-foreground mb-1">Angemeldet als</p>
-        <p className="text-sm font-medium text-foreground truncate" title="Demo">
-          freelancer@example.de
+        <p
+          className="text-sm font-medium text-foreground truncate"
+          title={accountLabel}
+          >
+            {accountLabel}
+
         </p>
         <p className="text-xs text-muted-foreground mt-2">
-          Noch kein Konto?{" "}
           <Link href="/auth" className="text-accent-foreground font-medium hover:underline">
-            Registrieren
+            Konto / Login
           </Link>
         </p>
       </div>
       <Button
+        variant="secondary"
+        className="w-full justify-start"
+        type="button"
+        disabled={signingOut}
+        onClick={() => void handleSignOut()}
+      >
+        {signingOut ? "Wird abgemeldet..." : "Abmelden"}
+      </Button>
+      <Button
         variant="ghost"
-        className="w-full justify-start mt-2"
+        className="w-full justify-start "
         type="button"
         onClick={() => onNavigate("landing")}
       >
