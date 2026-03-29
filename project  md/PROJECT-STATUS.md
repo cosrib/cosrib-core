@@ -11,8 +11,8 @@
 | **Next.js App (`src/`)** | Fertig (Grundgerüst) | — |
 | **UI-Kit (Button, Input, Card, Sidebar)** | Fertig | Fokus-Ringe, `Card` unterstützt Tastatur |
 | **Landing + Dashboard (Layout)** | Fertig (UI/UX-Pass) | Sticky Header, Footer, Modal-UX, Auth-Look |
-| **Warteliste (Formular)** | Nur Demo | Speichert **nicht** in DB – nur `setSubmitted(true)` lokal |
-| **Warteliste → Supabase** | Offen | Tabelle `waitlist` + `insert` aus `LandingPage` |
+| **Warteliste (Formular)** | Fertig | `POST /api/waitlist` → Supabase-Tabelle `waitlist` (nach SQL         in`project  md/waitlist-supabase.sql`) |
+| **Warteliste → Supabase** | Fertig (nach SQL) | Ohne echte `.env.local` + SQL: API antwortet 503 mit Hinweis |
 | **Login /auth** | Fertig (Grundgerüst) | Funktioniert mit echten Keys in `.env.local` |
 | **Supabase Client** | Fertig | Ohne echte URL/Key: Platzhalter (Build geht, Auth nicht echt) |
 | **„Anmelden“ auf Landing** | Teilweise | Wechselt nur zur **Dashboard-Ansicht** in der App, **kein** Link zu `/auth` |

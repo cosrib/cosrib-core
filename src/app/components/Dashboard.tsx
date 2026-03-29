@@ -20,6 +20,7 @@ import {
   MessageSquare,
   Menu,
   X,
+  Link2,
 } from "lucide-react";
 
 type NavItem = { id: string; icon: React.ReactNode; label: string };
@@ -112,6 +113,11 @@ export function Dashboard({
       items: [
         { id: "profil", icon: <User className="w-5 h-5" />, label: "Profil" },
         { id: "schreibstil", icon: <PenTool className="w-5 h-5" />, label: "Schreibstil"},
+        {
+          id: "verbindungen",
+          icon: <Link2 className="w-5 h-5" />,
+          label: "Verbindungen",
+        },
       ],
     },
   ];
@@ -219,7 +225,7 @@ export function Dashboard({
             <nav className="flex-1 p-3 overflow-y-auto space-y-5" aria-label="Hauptnavigation">
               {navigationGroups.map((group) => (
                 <div key={group.heading}>
-                  <p className= "px-3 mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                  <p className="px-3 mb-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                     {group.heading}
                   </p>
                   <div className="space-y-0.5">

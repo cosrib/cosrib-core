@@ -1,15 +1,25 @@
-﻿# Ordner project  md – Doku
+# FreelancerOS / Scribe
 
-**Hinweis:** Der Ordner heisst `project` + **zwei Leerzeichen** + `md`.
+**Hauptprojekt-Ordner (deine „echte“ Kopie):** dieser Ordner hier.
 
-## Wichtig
+## Dokumentation
 
-- **[WORKTREE-ERKLÄRUNG.md](WORKTREE-ERKLÄRUNG.md)** – wenn Cursor einen **anderen Pfad** als Documents zeigt
-- **[MENTOR-REGELN.md](MENTOR-REGELN.md)** – Mentor-Modus & Lernziele
-- **COMMANDS-UND-GIT.md**, **Launch.md**, **github.md** – wie bei dir benannt
+Alles Wichtige liegt unter:
 
-## Cursor
+**`project  md`**  
+*(Ordnername mit **zwei** Leerzeichen zwischen „project“ und „md“.)*
 
-**Ordner öffnen:** `C:\Users\natha\Documents\Ordnung app\FreelancerOS` (nicht worktree).
+- **Einstieg / Index:** [`project  md/README.md`](project%20%20md/README.md)
+- **Mentor & Lernziele:** [`project  md/MENTOR-REGELN.md`](project%20%20md/MENTOR-REGELN.md)
+- **Worktree vs. Documents:** [`project  md/WORKTREE-ERKLÄRUNG.md`](project%20%20md/WORKTREE-ERKLÄRUNG.md)
 
-Im Chat: *Arbeite nur unter diesem Pfad, nicht im .cursor/worktrees-Ordner.*
+## App starten
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+*Wenn Cursor einen Ordner unter `.cursor\worktrees\` öffnet: siehe **WORKTREE-ERKLÄRUNG.md**.*

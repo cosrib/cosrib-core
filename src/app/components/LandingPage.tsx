@@ -17,11 +17,35 @@ export function LandingPage({
   const [showWaitlist, setShowWaitlist] = useState(false);
   const [formData, setFormData] = useState({ name: "", email: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSubmitError(null);
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+        }),
+      });
+      const data = (await res.json()) as { ok?: boolean; message?: string };
+      if (!res.ok || !data.ok) {
+        setSubmitError(data.message ?? "Eintragen fehlgeschlagen.");
+        return;
+      }
+      setSubmitted(true);
+    } catch {
+      setSubmitError("Netzwerkfehler. Bitte erneut versuchen.");
+    } finally {
+      setSubmitting(false);
+    }
   };
+
 
   useEffect(() => {
     if (!showWaitlist) return;
@@ -204,8 +228,13 @@ export function LandingPage({
                     <p className="text-xs text-muted-foreground leading-relaxed">
                       Deine Daten werden vertraulich behandelt und nicht weitergegeben.
                     </p>
-                    <Button type="submit" className="w-full">
-                      Eintragen
+                    {submitError && (
+                      <p className="text-sm text-destructive" role="alert">
+                        {submitError}
+                      </p>
+                    )}
+                    <Button type="submit" className="w-full" disabled={submitting}>
+                      {submitting ? "Wird gesendet…" : "Eintragen"}
                     </Button>
                   </form>
                 </>

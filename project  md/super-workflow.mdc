@@ -1,0 +1,11 @@
+---
+description: Superpowers-light – erst Plan, dann Code, dann prüfen (TDD wo sinnvoll)
+alwaysApply: true
+---
+# Arbeitsablauf (Superpowers-light)
+Vor **nicht-trivialen** Änderungen (mehrere Dateien, neue Features, Refactors):
+1. **Kurz planen** – Ziel, betroffene Stellen, Risiken (2–5 Sätze oder Stichpunkte). Bei Unklarheit eine gezielte Rückfrage stellen.
+2. **Umsetzen** – Fokussiert, nur was zum Ziel nötig ist; bestehende Konventionen im Repo einhalten.
+3. **Prüfen** – Wo sinnvoll: passende Tests anlegen oder erweitern; mindestens Build/Lint oder manuelle Prüfung erwähnen. Keine „fertig“-Behauptung ohne greifbare Prüfidee.
+Bei **trivialen** Fixes (Tippfehler, eine Zeile) kann Schritt 1 entfallen.
+**Nutzer-Regeln haben Vorrang:** Wenn explizit nur Erklärung oder nur Chat-Output ohne Repo-Edits gewünscht ist, zuerst das umsetzen – dieser Ablauf gilt für Implementierungsaufgaben.
