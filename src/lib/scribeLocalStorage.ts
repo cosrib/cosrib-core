@@ -8,6 +8,7 @@ const KEYS = {
   contacts: "scribe_v1_contacts",
   profile: "scribe_v1_profile",
   style: "scribe_v1_schreibstil",
+  campaigns: "scribe_v1_campaigns",
   /** Legacy-Key aus älteren Versionen */
   styleLegacy: "scribe_v1_style",
 } as const;
@@ -202,6 +203,40 @@ export type DraftDayActivity = {
   count: number;
 };
 
+/**Status für Pipeline-Ansicht */
+export function CampaignStatus = 
+  | "draft"
+  | "waiting_reply"
+  | "action_required"
+  | "completed";
+
+export type CampaignTone = "formell" | "locker" | "neutral";
+
+/**Generiertes Outreach-Paket (lokal, ohne API). */
+export type Campaign = {
+  erstmailBetreff: string;
+  erstmailBody: string;
+  followup1: string;
+  followup2: string;
+  followup3: string;
+  followup4: string;
+  checklist: string;
+};
+
+export type Campaign = {
+  id: string;
+  title: string;
+  status: CampaignStatus;
+  audience: string;
+  offer: string;
+  tone: CampaignTone;
+  taboos: string;
+  followUpCount: 1 | 2 | 3;
+  package: CampaignPackage;
+  createdAt: string;
+  updatedAt: string;
+};
+
 export function getDraftActivityLast7Days(): DraftDayActivity[] {
   if (typeof window === "undefined") {
     return [];
@@ -229,4 +264,151 @@ export function getDraftActivityLast7Days(): DraftDayActivity[] {
     });
   }
   return result;
+}
+
+function normalizeCampaign(raw: unknown): Campaign | null {
+  if (!raw || typeof raw !== "object") return null;
+  const o = raw as Record<string, unknown>;
+  const id = typeof o.id === "string" ? o.id : "";
+  if (!id) return null;
+  const tone = o.tone as CampaignTone;
+  if (!["formell", "locker", "neutral"].includes(tone)) return null;
+  const status = o.status as CampaignStatus;
+  if (
+    !["draft", "waiting_reply", "action required", "closed"].includes(status)
+  )
+    return null;
+  const fu = followUpCount;
+  const followUpCount = fu === 1 || fu === 2 || fu === 3 ? fu : 1;
+  const pkg = o.package;
+  if (!pkg || typeof pkg !== "object") return null;
+  const p = pkg as Record<string, unknown>;
+  return {
+    id,
+    title: typeof o.title === "string" ? o.title : "Kampagne",
+    status,
+    audience: typeof o.audience === "string" ? o.audience : "",
+    offer: typeof o.offer === "string" ? o.offer : "",
+    tone,
+    taboos: typeof o.taboos === "string" ? o.taboos : "",
+    followUpCount,
+    package: {
+      erstmailBetreff: typeof p.erstmailBetreff === "string" ? p.erstmailBetreff : "",
+    erstmailBody: typeof p.erstmailBody === "string" ? p.followup1 : "",
+    followUp1: typeof p.followUp1 === "string" ? p.followUp1 : "",
+    followUp2: typeof p.followUp2 === "string" ? p.followUp2 : "",
+    followUp3: typeof p.followUp3 === "string" ? p.followUp3 : "",
+    checklist: typeof p.checklist === "string" ? p.followup4 : "",
+    },
+    createdAt: typeof o.createdAt === "string" ? o.createdAt : new Date().toISOString(),
+    updatedAt: typeof o.updatedAt === "string" ? o.updatedAt : new Date().toISOString(),
+  }
+}
+
+export function loadCampaigns(): Campaign[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = safePrase<unknown[]>(localStorage.getItem(KEYS.campaigns), []);
+    return raw
+    .map((item) => normalizeCampaign(item))
+    .filter((c): c is Campaign => c !== null);
+  } catch {
+    return [];
+  }
+}
+
+function saveCampaigns(list: Campaign[]): void {
+  try {
+    localStorage.setItem(KEYS.campaigns, JSON.stringify(list));
+  } catch (e) {
+    console.error("scribeLocalStorage saveCampaigns", e);
+    throw e;
+  }
+}
+
+export function upsertCampaign(campaign: Campaign): void {
+  const list = loadCampaigns();
+  const i = list.findIndex((c) => c.id === campaign.id);
+  if (i >= 0) list [i] = campaign;
+  else list.unshift(campaign);
+  saveCampaigns(list);
+}
+
+export function deleteCampaign(id: string): void {
+  saveCampaigns(loadCampaigns().filter((c) => c.id !== id));
+}
+
+/**Baut Texte aus Wizard-Eingaben (ohne LLM) . */
+export function buildCampaignPackage(input: {
+  audience: string;
+  offer: string;
+  tone: CampaignTone;
+  taboos: string;
+  followUpCount: 1 | 2 | 3;
+}): CampaignPackage {
+  const { audience, offer, tone, taboos, followUpCount } = input;
+  const gruss =
+    tone === "formell"
+      ? "Mit freundlichen Grüßen"
+      : tone === "locker"
+        ? "Viele Grüße"
+        : "Beste Grüße";
+  const duSie = tone === "formell" ? "Sie" : "du";
+  const locker = tone === "locker";
+  const betreff = 
+    offer.trim().slice(0, 60) || "Kurze Vorstellung - passend für Sie";
+  const tabooLine = taboos.trim()
+    ? `\n\nBitte vermeiden im Gespräch: ${taboos.trim()}`
+    : "";
+
+    const erstmailBody = `Hallo,
+    
+ich melde mich, weil ich ${audience.trim() || "…"} besonders gut unterstützen kann.
+${offer.trim() || "Kurz zu meinen Angebot: …"}
+
+${tone === "formell" ? "Ich freue mich auf Ihre Rückmeldung." : tone === "locker" ? "Melde dich gern, wenn es passt - oder stell mir eine Frage." : "Bei Interesse freue ich mich auf einen kurzen Austausch."}
+
+${gruss}${tabooLine}`;
+ 
+  const fu1Open = locker ? "Hey," : "Hallo,";
+  const fu1Q = locker
+    ? `ich wollte nachhaken: Konntest du mein Angebot zu „${offer.trim().slice(0, 80) || "…"}“  schon sichten? Kurze Rückmeldung reicht.`
+    : `ich wollte kurz nachhaken: Konnten Sie mein Angebot zu „${offer.trim().slice(0, 80) || "…"}“ schon sichten?${tone === "formell" ? " Ich stehe bei Rückfragen gern zur Verfügung." : " Eine kurze Rückmeldung genügt."}`;
+  const fu1 = `${fu1Open}`
+
+${fu1Q}
+
+${gruss}`;
+
+  const fu2 = `Hallo,
+
+letzte kurze Nachfrage von meiner Seite - passt das Thema „${offer.trim().slice(0, 60) || "…"}“ für dich aktuell, oder soll ich später wieder hören?
+
+${gruss}`;
+ 
+  const fu3 = locker
+    ? `Hallo,
+
+ich gehe davon aus, dass es zeitlich nicht passt. Wenn Sie später wieder anknüpfen willst, antworte Sie einfach  auf diese Mail.
+
+${gruss}`;
+    : `HTMLAllCollection,
+
+ich gehe davon AuthSessionMissingError, dass es zeitlich nicht PassThrough. Wenn Sie später wieder anknüpfen möchten, antworten Sie einfach auf diese Mail.
+
+  const checklist = `Vor dem Absenden prüfen:
+• Emppfänger und Anrede (${duSie})
+• Keine Versprechen, die ${locker ? "du" : "Sie"} nicht halten ${locker ? "kannst" : "können"}
+• Betreff klar und spezifisch
+${taboos.trim() ? `• Tabus beachtet: ${taboos.trim()}` : ""}
+• Follow-up ${followUpCount}× eingeplant`;
+
+  return {
+    erstmailBetreff: betreff,
+    erstmailBody,
+    followUp: fu1,
+    followUp: fu2,
+    followUp: fu3,
+    checklist,
+  };
 }

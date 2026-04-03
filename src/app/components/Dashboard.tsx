@@ -8,6 +8,8 @@ import { SidebarItem } from "./SidebarItem";
 import { Button } from "./Button";
 import { DashboardHome } from "./DashboardHome";
 import { DashboardSectionContent } from "./DashboardSectionContent";
+import { CampaignWorkspace } from "./CampaignWorkspace";
+import { KaltEmailSection } from "./sections/KaltEmailSection";
 import {
   Home,
   User,
@@ -267,19 +269,28 @@ export function Dashboard({
           <div className="w-10 md:w-0 shrink-0" aria-hidden />
         </header>
 
-        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
-          <div className="max-w-6xl mx-auto p-4 sm:p-8 md:p-12 pb-16">
+        <div className="flex-1 min-h-0 flex flex-col overflow-hidden">
             {activeSection === "home" && (
-              <DashboardHome onGoTo={(id) => setActiveSection(id)} />
+              <div className="max-w-6xl mx-auto p-4 sm:p-8 md:p-12 pb-16 flex-1 min-h-0 overflow-contain w-full">
+                <DashboardHome onGoTo={(id) => setActiveSection(id)} />
+              </div>
+            )}
+            {activeSection === "kalt-email" && (
+              <div className="flex-1 min-h-0 flex flex-col px-4 sm:px-6 md:px-8 lg:px-10 pb-8 overflow-hidden min-w-0">
+                <CampaignWorkspace>
+                  <KaltEmailSection />
+                </CampaignWorkspace>
+              </div>
             )}
 
-            {activeSection !== "home" && (
+            {activeSection !== "home" && activeSection !== "kalt-email" && (
+              <div className="max-w-6xl mx-auto p-4 sm:p-8 md:p-12 pb-16 flex-1 min-h-0 overflow-y-auto overscroll-contain w-full">
               <DashboardSectionContent
                 sectionId={activeSection}
                 onBackHome={() => setActiveSection("home")}
               />
-            )}
           </div>
+          )}
         </div>
       </main>
     </div>
